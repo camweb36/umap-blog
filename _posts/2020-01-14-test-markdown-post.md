@@ -27,7 +27,7 @@ UMAP creates a mapping of the high dimensional data through a set of steps roote
 
 In the high dimensional space, which we'll call $\mathbb{R}^n$, an $n$-dimensional ball with a given radius is drawn around each observation. Known as a cover in topological analysis, this ball represents the set of points to be considered neighbors of the central observation. For the sake of clarity, our "high dimensional" space is $\mathbb{R}^2$ in this example.
 
-![Figure 1](./cover.png)
+<img src="cover.png">
 
 #### Nerve Theorem
 
@@ -37,18 +37,17 @@ $$\text{Let }\mathcal{U} = \{U_i\}_{i \in I}\text{ be a cover of a topological s
 
 Equivalently, the nerve of the cover of a topological space can be mapped back and forth with the original topological space if the space is fully connected. The nerve of a topological space is the representation of that topological space with simplexes. For context, $n$-dimensional simplexes are $n$-dimension generalizations of the triangle in 2-dimensional space. Below are some examples:
 
-![Figure 2](./simplices.png)
-
+<img src="simplices.png">
 
 If we take the nerve of our example high-dimensional space, we get the following simplicial set:
 
-![Figure 3](./simplicial_set.png)
+<img src="simplicial_set.png">
 
 ### Uniformity Assumption
 
 There's one glaring issue with our simplicial set: it's not fully connected! To circumvent this problem, UMAP employs a clever trick. To connect the unconnected sets, the algorithm defines a Riemannian metric that varies in scale when mapped to Euclidean space, matching the distance of points so that they are uniformly spaced in this new manifold. This allows for the radii of the covers to vary so that each one intersects at least one neighbor, thus connecting the set and giving rise to homotropic equivalence of the mappings. Below, the radii vary so that each ball encompasses an observation's 2 nearest neighbors, and the corresponding nerve of the cover is connected.
 
-![Figure 4](./varied_cover.png)
+<img src="varied_cover.png">
 
 #### Fuzzy Cover
 
@@ -58,7 +57,7 @@ $$p_{i|j}=\exp{\left( -\dfrac{d(x_i , x_j) - \rho_i}{\sigma_i} \right)}, p_{ij} 
 
 Where $d()$ is the distance between points, $\rho_i$ is the distance to the nearest neighbor of $i$, and $sigma$ is the normalizing factor that determines the radius of the cover. $\rho$ is useful because it ensures that each point is connected to at least one neighbor. Thus, neighbor strength out to the first nearest neighborhood is guaranteed, then exponentially decays any farther away one travels from an individual point. This also presents a workaround for the curse of dimensionality, which states that Euclidean distances between points get smaller and smaller as the number of dimensions increases. While a bit crude, the drawing below should give you an idea of what the fuzzy cover should look like in a 2-dimensional case. Notice how the fill is dense up until the nearest neighbor, then drops off exponentially.
 
-![Figure 5](./fuzzy_cover.png)
+<img src="fuzzy_cover.png">
 
 #### Choosing Radii
 
@@ -102,11 +101,11 @@ To observe how UMAP compares to t-SNE, we'll compare the qualitative differences
 
 One high dimensional data science application that is well suited to dimensionality reduction tasks is image recognition. Because certain pixels show far more variance than others, it is often practical and computationally useful to collapse sets of pixel-features down to lower dimensions. Additionally, if we wanted to visualize the differences and relationships between image observations, the dimension space of the number of pixels in an image would be extremely impractical. In this example, we use the MNIST dataset, a dataset of 28-by-28-pixel images of handwritten digits with corresponding labels of 0-9 for the digit that the image of the handwritten digit represents. Since the images are 28 by 28 pixels, the dimension of the manifold in which they live is $\mathbb{R}^{748}$. Below is the result of running t-SNE on 60000 observations from the dataset:
 
-![Figure 6](./tsne.png)
+<img src="tsne.png">
 
 The first thing to notice is the amount of time that was required to create the low-dimensional space embedding: over 37 minutes. The embedding was also initialized with PCA. Should it have been initialized randomly, it would have likely taken even longer. The next important characteristic to notice is the lack of spacing between clusters. While the program does a good job of separating these clusters with a few minor miscalculations, the gaps between clusters are insignificant and equal among all cluster gaps. In contrast, below is a UMAP embedding for the same dataset:
 
-![Figure 7](./umap.png)
+<img src="umap.png">
 
 The amount of time required to reach the final result is orders of magnitude smaller than UMAP. This fact alone lends a great amount of credence to UMAP over t-SNE. Additionally, each cluster is well separated from the others and the vast majority of points were placed with their classmates. Concerning clustering ability on the dataset, the two algorithms perform comparably well. What's most interesting is the gaps between clusters. It's interesting to note that observations with 0 and 1 labels, the two digits with perhaps the most different shape, were places very far apart from each other. On the other hand, 3, 8, and 5 were placed close together. The same goes for 7, 9, and 4. While we cannot say anything about *how* these shapes are similar, we can say that there appears to be more global structure preservation due to the differences in spacing between the clusters.
 
@@ -125,5 +124,5 @@ In this article, we explored the mathematical foundations of the UMAP dimensiona
 
 - Oskolkov, N. (2019, October 3). How Exactly UMAP Works [Web log post]. Retrieved from https://towardsdatascience.com/how-exactly-umap-works-13e3040e1668
 
-- UMAP Uniform Manifold Approximation and Projection for Dimension Reduction | SciPy 2018 | [Video file]. (2018, July 13). Retrieved from https://www.youtube.com/watch?v=nq6iPZVUxZU
+- UMAP Uniform Manifold Approximation and Projection for Dimension Reduction SciPy 2018 [Video file]. (2018, July 13). Retrieved from https://www.youtube.com/watch?v=nq6iPZVUxZU
 
